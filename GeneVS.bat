@@ -1,0 +1,1 @@
+qmake -tp vc test1.pro
