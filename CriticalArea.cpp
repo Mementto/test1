@@ -12,10 +12,12 @@ Description:CriticalArea的功能实现源文件
 
 #include "CriticalArea.h"
 
-CriticalArea::CriticalArea(const int& buffer_1, const int& buffer_2, const int& bytes_1, const int& bytes_2, const int& lessNum)
+CriticalArea::CriticalArea(const int& buffer_1, const int& buffer_2, 
+	const int& bytes_1, const int& bytes_2, const int& lessNum)
 	: mBufferSize_1(buffer_1), mBufferSize_2(buffer_2), mNumUsedBytes_1(bytes_1),
 	mNumUsedBytes_2(bytes_2), mLessNum(lessNum), mRunSignal(1), mStopReturnSignal(0),
-	mVideoStream(new stack<map<int, Mat>*>), mTestStream(new queue<map<int, Mat>*>) {}
+	mVideoStream(new stack<map<int, Mat>*>), mTestStream(new queue<map<int, Mat>*>), 
+	mItems(new map<int, VideoCapture>) {}
 
 CriticalArea::~CriticalArea() {
 	while (mVideoStream->size()) {
@@ -32,8 +34,10 @@ CriticalArea::~CriticalArea() {
 
 	delete mVideoStream;
 	delete mTestStream;
+	delete mItems;
 	mVideoStream = nullptr;
 	mTestStream = nullptr;
+	mItems = nullptr;
 }
 
 int& CriticalArea::getNumUsedBytes_1() {
@@ -80,7 +84,9 @@ QMutex& CriticalArea::getQMutex_1() {
 QMutex& CriticalArea::getQMutex_2() {
 	return mQMutex_2;
 }
-
+QMutex& CriticalArea::getQMutex_3() {
+	return mQMutex_3;
+}
 const int& CriticalArea::getRunSignal() const {
 	return mRunSignal;
 }
@@ -91,4 +97,8 @@ void CriticalArea::setRunSignal(const int& runSignal) {
 
 int& CriticalArea::getStopReturnSignal() {
 	return mStopReturnSignal;
+}
+
+map<int, VideoCapture>* CriticalArea::getVideoCaptureItem() const {
+	return mItems;
 }

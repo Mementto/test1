@@ -316,6 +316,23 @@ public:
 
 	/**************************************************
 
+	Function:getQMutex_3
+
+	Description:返回3号临界区缓冲区互斥类对象
+
+	Calls:null
+
+	Input:null
+
+	Output:mQMutex_3，3号临界区缓冲区互斥类对象
+
+	Others:null
+
+	**************************************************/
+	QMutex& getQMutex_3();
+
+	/**************************************************
+
 	Function:getRunSignal
 
 	Description:返回线程运行信号
@@ -365,6 +382,9 @@ public:
 	**************************************************/
 	int& getStopReturnSignal();
 
+
+	map<int, VideoCapture>* getVideoCaptureItem() const;
+
 private:
 
 	/* 指向1号临界区栈的指针 */
@@ -384,6 +404,9 @@ private:
 
 	/* 2号临界区缓冲区“等待缓冲区有可用数据”对象 */
 	QWaitCondition mBufferFull_2;
+
+	/* 3号临界区缓冲区互斥类对象 */
+	QMutex mQMutex_3;
 
 	/* 2号临界区缓冲区互斥类对象 */
 	QMutex mQMutex_2;
@@ -414,6 +437,8 @@ private:
 
 	/* 线程停止后的反馈信号，初始值为0，每个线程停止加1 */
 	int mStopReturnSignal;
+
+	map<int, VideoCapture>* mItems;
 };
 
 #endif // !__CRITICALAREA__

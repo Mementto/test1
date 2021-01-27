@@ -37,10 +37,19 @@
     <ClCompile Include="CriticalArea.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GUIMain.cpp">
+    <ClCompile Include="Producer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Producer.cpp">
+    <ClCompile Include="TestClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Supplier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartAllThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Detect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,10 +71,19 @@
     <ClInclude Include="CriticalArea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GUIMain.h">
+    <ClInclude Include="Producer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Producer.h">
+    <ClInclude Include="TestClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Supplier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartAllThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Detect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

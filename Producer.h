@@ -34,7 +34,7 @@ public:
 
 	Output:null
 
-	Others:初始化了mData、mPath、mId
+	Others:初始化了mData、mId
 
 	**************************************************/
 	Producer();
@@ -71,7 +71,7 @@ public:
 	Others:null
 
 	**************************************************/
-	void setPath(string path);
+	void setVideoCapture(const VideoCapture& videoCapture);
 
 	/**************************************************
 
@@ -136,8 +136,8 @@ private:
 	/* 指向临界区的指针 */
 	CriticalArea* mCriticalArea;
 
-	/* 摄像头路径 */
-	string mPath;
+	/* VideoCapture */
+	VideoCapture mVideoCapture;
 
 	/* 摄像头编号 */
 	int mId;

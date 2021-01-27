@@ -13,12 +13,15 @@ Description:启动生产者线程和消费者线程，
 
 #ifndef __GUIMAIN__
 #define __GUIMAIN__
+#include "Supplier.h"
 #include "Producer.h"
 #include "Consumer.h"
+#include "TestClass.h"
 #include "CParseIniFile.h"
 #include "CriticalArea.h"
+#include <time.h>
 
-class GUIMain : public QThread {
+class StartAllThread {
 public:
 
 	/**************************************************
@@ -55,14 +58,13 @@ public:
 	辟堆空间
 
 	**************************************************/
-	GUIMain(
-		const string& fileName,
-		const string& section,
-		const int& cameraNum,
-		const int& windowNum,
+	StartAllThread(
+		const int& handleNum,
 		const int& bufferSize_1,
 		const int& bufferSize_2,
-		const int& lessNum);
+		const int& lessNum,
+		const int& videoCaptureReadTime,
+		map<string, string> path);
 
 	/**************************************************
 
@@ -79,7 +81,7 @@ public:
 	Others:null
 
 	**************************************************/
-	virtual ~GUIMain();
+	virtual ~StartAllThread();
 
 	/**************************************************
 
@@ -105,26 +107,6 @@ public:
 
 	/**************************************************
 
-	Function:run
-
-	Description:接收来自2号临界区队列中的图片帧
-
-	Calls:CriticalArea类，getQMutex_2()、
-		  getNumUsedBytes_2()、getFull_2()、
-		  getTestStream()、getNumUsedBytes_1()、
-		  getEmpty_2()
-
-	Input:null
-
-	Output:null
-
-	Others:null
-
-	**************************************************/
-	void run();
-
-	/**************************************************
-
 	Function:stopAll
 
 	Description:终止所有线程
@@ -143,11 +125,15 @@ public:
 
 private:
 
+	Supplier* mSupplier;
+
 	/* 生产者：从相机中读取并存入临界区栈图片的线程指针 */
 	Producer* mProducer;
 
 	/* 消费者：从临界区栈中读取并存入测试队列的线程指针 */
 	Consumer* mConsumer;
+
+	TestClass* mTestClass;
 
 	/* 指向临界区中所有变量的指针 */
 	CriticalArea* mCriticalArea;
@@ -156,21 +142,13 @@ private:
 	CParseIniFile* mCParseIniFile;
 
 	/* 初始化消费者指针数组的大小并确定消费者线程数量 */
-	const int mWindowNum;
+	const int mHandleNum;
 
-	/* 相机数量的上限，初始化生产者指针
-	数组的大小（生产者线程的数量以及相机
-	数量由配置文件中的键-值数量对确定） */
-	const int mCameraNum;
+	const int mVideoCaptureReadTime;
 
-	/* 配置文件的文件名 */
-	const string mFileName;
+	map<string, string> mPath;
 
-	/* 配置文件的节名 */
-	const string mSection;
-
-	/* 存配置文件的键-值对，还用于跨函数记录生产者线程数 */
-	map<int, string> mPath;
+	int mThreadNum;
 };
 
 #endif // !__GUIMAIN__

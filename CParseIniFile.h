@@ -80,7 +80,7 @@ public:
 	Others:null
 
 	**************************************************/
-	bool ReadConfig(const string& filename, map<int, string>& content, const string& section);
+	bool ReadConfig(const string& filename, map<string, string>& content, const string& section);
 
 	/**************************************************
 

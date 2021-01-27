@@ -16,7 +16,7 @@ CParseIniFile::CParseIniFile() {}
 
 CParseIniFile::~CParseIniFile() {}
 
-bool CParseIniFile::ReadConfig(const string& filename, map<int, string>& content, const string& section) {
+bool CParseIniFile::ReadConfig(const string& filename, map<string, string>& content, const string& section) {
 	content.clear();
 	ifstream infile(filename.c_str());
 	if (!infile) {
@@ -47,7 +47,7 @@ bool CParseIniFile::ReadConfig(const string& filename, map<int, string>& content
 					value[value.size() - 1] = '\0';
 				}
 			}
-			content[stoi(key)] = value;
+			content[key] = value;
 		}
 	}
 	infile.close();
