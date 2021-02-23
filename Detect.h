@@ -1,7 +1,7 @@
 #ifndef __DETECT__
 #define __DETECT__
 
-#include "StartAllThread.h"
+#include "VideoLoader.h"
 #include "CParseIniFile.h"
 
 struct FileAndSectionName {
@@ -26,6 +26,8 @@ public:
 private:
 	
     void startAllThread();
+
+    void receiveImage();
 };
 
 #endif // !__DETECT__

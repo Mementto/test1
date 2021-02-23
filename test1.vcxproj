@@ -136,15 +136,13 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Consumer.cpp" />
     <ClCompile Include="CParseIniFile.cpp" />
     <ClCompile Include="CriticalArea.cpp" />
     <ClCompile Include="Detect.cpp" />
-    <ClCompile Include="StartAllThread.cpp" />
+    <ClCompile Include="VideoLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Producer.cpp" />
     <ClCompile Include="Supplier.cpp" />
-    <ClCompile Include="TestClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -165,14 +163,12 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Consumer.h" />
     <ClInclude Include="CParseIniFile.h" />
     <ClInclude Include="CriticalArea.h" />
     <ClInclude Include="Detect.h" />
-    <ClInclude Include="StartAllThread.h" />
+    <ClInclude Include="VideoLoader.h" />
     <ClInclude Include="Producer.h" />
     <ClInclude Include="Supplier.h" />
-    <ClInclude Include="TestClass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.ini" />

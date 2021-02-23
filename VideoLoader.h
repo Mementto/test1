@@ -15,13 +15,11 @@ Description:启动生产者线程和消费者线程，
 #define __GUIMAIN__
 #include "Supplier.h"
 #include "Producer.h"
-#include "Consumer.h"
-#include "TestClass.h"
 #include "CParseIniFile.h"
 #include "CriticalArea.h"
 #include <time.h>
 
-class StartAllThread {
+class VideoLoader {
 public:
 
 	/**************************************************
@@ -58,10 +56,8 @@ public:
 	辟堆空间
 
 	**************************************************/
-	StartAllThread(
-		const int& handleNum,
+	VideoLoader(
 		const int& bufferSize_1,
-		const int& bufferSize_2,
 		const int& lessNum,
 		const int& videoCaptureReadTime,
 		map<string, string> path);
@@ -81,7 +77,7 @@ public:
 	Others:null
 
 	**************************************************/
-	virtual ~StartAllThread();
+	virtual ~VideoLoader();
 
 	/**************************************************
 
@@ -123,6 +119,8 @@ public:
 	**************************************************/
 	void stopAll();
 
+	void receiveImage();
+
 private:
 
 	Supplier* mSupplier;
@@ -130,19 +128,11 @@ private:
 	/* 生产者：从相机中读取并存入临界区栈图片的线程指针 */
 	Producer* mProducer;
 
-	/* 消费者：从临界区栈中读取并存入测试队列的线程指针 */
-	Consumer* mConsumer;
-
-	TestClass* mTestClass;
-
 	/* 指向临界区中所有变量的指针 */
 	CriticalArea* mCriticalArea;
 
 	/* 获取ini配置文件信息类的指针 */
 	CParseIniFile* mCParseIniFile;
-
-	/* 初始化消费者指针数组的大小并确定消费者线程数量 */
-	const int mHandleNum;
 
 	const int mVideoCaptureReadTime;
 

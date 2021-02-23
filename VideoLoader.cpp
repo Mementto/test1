@@ -10,31 +10,25 @@ Description:StartAllThread的功能实现源文件
 
 **************************************************/
 
-#include "StartAllThread.h"
+#include "VideoLoader.h"
 
-StartAllThread::StartAllThread(
-	const int& handleNum,
+VideoLoader::VideoLoader(
 	const int& bufferSize_1,
-	const int& bufferSize_2,
 	const int& lessNum,
 	const int& videoCaptureReadTime,
-	map<string, string> path) :
-	mHandleNum(handleNum),
+	map<string, string> path):
 	mPath(path),
 	mVideoCaptureReadTime(videoCaptureReadTime),
 	mThreadNum(0) {
 
 	mCParseIniFile = new CParseIniFile();
-	mCriticalArea = new CriticalArea(bufferSize_1, bufferSize_2, 0, 0, lessNum);
+	mCriticalArea = new CriticalArea(bufferSize_1, 0, lessNum, path.size());
 	mSupplier = new Supplier[path.size()];
 	mProducer = new Producer[path.size()];
-	mConsumer = new Consumer[handleNum];
-	mTestClass = new TestClass(mCriticalArea);
 }
 
-void StartAllThread::create() {
+void VideoLoader::create() {
 
-	
 	map<string, string>::iterator iter;
 	int i;
 
@@ -46,16 +40,6 @@ void StartAllThread::create() {
 		mSupplier[i].setId(stoi(iter->first));
 		mSupplier[i].start();
 	}
-
-	/* 根据windowNum确定消费者线程数 */
-	for (size_t i = 0; i < mHandleNum; i++) {
-		mConsumer[i].setData(mCriticalArea);
-		mConsumer[i].start();
-		mThreadNum ++;
-	}
-
-	mTestClass->start();
-	mThreadNum ++;
 
 	clock_t start, end;
 	start = clock();
@@ -87,7 +71,54 @@ void StartAllThread::create() {
 	mSupplier = nullptr;
 }
 
-void StartAllThread::stopAll() {
+void VideoLoader::receiveImage() {
+	/* 判断该线程是否被请求终止 */
+	while (mCriticalArea->getRunSignal()) {
+
+		map<int, stack<Mat>*>::iterator iter = mCriticalArea->getVideoStream()->begin();
+		for (; iter != mCriticalArea->getVideoStream()->end(); iter++) {
+			int imageKey = iter->first;
+
+			/* 对1号临界区加锁 */
+			mCriticalArea->getQMutex_1(imageKey).lock();
+
+			/* 检查1号临界区的缓冲区是否为空 */
+			while (mCriticalArea->getNumUsedBytes_1(imageKey) == 0) {
+
+				/* 若为空则解锁等待（解锁是为了在该线程等待时可以让别的线程继续
+				使用该临界区）一直到有可用数据输入则加锁并进行下一步 */
+				mCriticalArea->getFull_1(imageKey).wait(&mCriticalArea->getQMutex_1(imageKey));
+			}
+
+			/* 判断1号临界区的栈是否为空 */
+			if (!iter->second->empty()) {
+
+				/* 从栈中读取数据 */
+				Mat frame = iter->second->top();
+
+				/* 移除该数据 */
+				iter->second->pop();
+
+				cout << mCriticalArea->getVideoStream()->size() << endl;
+				if (!frame.empty()) {
+					imshow(to_string(imageKey), frame);
+					waitKey(1);
+				}
+
+				/* 1号临界区缓冲区可用数据减少一个 */
+				--mCriticalArea->getNumUsedBytes_1(imageKey);
+
+				/* 唤醒所有在“等待1号临界区空闲”的线程 */
+				mCriticalArea->getEmpty_1(imageKey).wakeAll();
+
+				/* 解锁1号临界区 */
+				mCriticalArea->getQMutex_1(imageKey).unlock();
+			}
+		}
+	}
+}
+
+void VideoLoader::stopAll() {
 
 	/* 发送停止信号 */
 	mCriticalArea->setRunSignal(0);
@@ -96,18 +127,14 @@ void StartAllThread::stopAll() {
 	while (mCriticalArea->getStopReturnSignal() < mThreadNum);
 }
 
-StartAllThread::~StartAllThread() {
+VideoLoader::~VideoLoader() {
 
 	delete[] mSupplier;
 	delete[] mProducer;
-	delete[] mConsumer;
-	delete mTestClass;
 	delete mCriticalArea;
 	delete mCParseIniFile;
 	mSupplier = nullptr;
 	mProducer = nullptr;
-	mConsumer = nullptr;
-	mTestClass = nullptr;
 	mCriticalArea = nullptr;
 	mCParseIniFile = nullptr;
 

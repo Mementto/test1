@@ -28,9 +28,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Consumer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CParseIniFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,16 +37,13 @@
     <ClCompile Include="Producer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Supplier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StartAllThread.cpp">
+    <ClCompile Include="Detect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Detect.cpp">
+    <ClCompile Include="VideoLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,9 +56,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Consumer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CParseIniFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -74,16 +65,13 @@
     <ClInclude Include="Producer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Supplier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StartAllThread.h">
+    <ClInclude Include="Detect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Detect.h">
+    <ClInclude Include="VideoLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
